@@ -1,0 +1,45 @@
+from tensorflow.keras.preprocessing.image import img_to_array
+
+# Directorio de la imagen de prueba
+testing_image_directory = '/content/PRO-M3-Pneumothorax-Image-Dataset/testing_dataset/infected'
+
+# Todos los archivos de imagen en el directorio
+img_files = os.listdir(testing_image_directory)
+
+i= 0
+
+# Bucle para 9 archivos de imagen
+for file in img_files[51:60]:
+
+  # Ruta completa de la imagen
+  img_files_path = os.path.join(testing_image_directory, file)
+
+  # Cargar imagen 
+  img_1 = load_img(img_files_path,target_size=(180, 180))
+
+  # Convertir la imagen en matriz
+  img_2 = img_to_array(img_1)
+
+  # Aumentar la dimensión
+  img_3 = np.expand_dims(img_2, axis=0)
+  
+  # Predecir la clase de la imagen que no se ha visto
+  prediction = model.predict(img_3)
+  # print(prediction)
+
+  predict_class = np.argmax(prediction, axis=1)
+  # print(predict_class)
+
+  # Graficar la imagen usando subplot
+  pyplot.subplot(3, 3, i+1)
+  pyplot.imshow(img_2.astype('uint8'))
+  
+  # Agregar título a la imagen como el valor de la clase predecida
+  pyplot.title(predict_class[0])
+
+  # No mostrar los ejes x, y en la imagen
+  pyplot.axis('off')
+
+  i=i+1
+
+pyplot.show()
